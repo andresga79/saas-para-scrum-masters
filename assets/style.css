@@ -587,6 +587,14 @@ body.has-player .doc tr { cursor: pointer; }
   color: var(--muted);
 }
 
+/* Reporte de diagnóstico (?diag) */
+.doc pre.diag-report {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.75rem;
+  border: 2px solid var(--signal);
+}
+
 /* Estados de carga y error */
 .loading {
   font-family: var(--font-mono);

@@ -2,6 +2,19 @@
 (function () {
   'use strict';
 
+  // Diagnóstico opcional (?diag en la URL): junta errores para mostrarlos en pantalla,
+  // útil en teléfonos donde no hay consola a mano.
+  var DIAG = /[?&]diag\b/.test(window.location.search);
+  var diagErrors = [];
+  if (DIAG) {
+    window.addEventListener('error', function (e) {
+      diagErrors.push('error: ' + (e.message || (e.target && (e.target.src || e.target.href)) || 'recurso'));
+    }, true);
+    window.addEventListener('unhandledrejection', function (e) {
+      diagErrors.push('promesa: ' + (e.reason && e.reason.message ? e.reason.message : String(e.reason)));
+    });
+  }
+
   var STORAGE_KEY = 'saas-sm:completados';
   var LAST_KEY = 'saas-sm:ultimo';
   var VOICE_KEY = 'saas-sm:voz';
@@ -578,7 +591,9 @@
           h1.focus({ preventScroll: true });
         }
         if (continueSpeech) startSpeech(0);
-        return renderDiagrams(el.doc, token);
+        return renderDiagrams(el.doc, token).then(function () {
+          if (DIAG && token === state.renderToken) showDiagnostics();
+        });
       })
       .catch(function (err) {
         if (token !== state.renderToken) return;
@@ -1080,6 +1095,36 @@
       });
       renderDiagrams(el.doc, token);
     });
+  }
+
+  function showDiagnostics() {
+    var figs = Array.prototype.slice.call(document.querySelectorAll('.diagram'));
+    var report = {
+      navegador: navigator.userAgent,
+      pantalla: window.innerWidth + 'x' + window.innerHeight + ' @' + window.devicePixelRatio,
+      mermaid: window.mermaid ? 'cargado' : 'NO cargado',
+      fuentes: document.fonts ? document.fonts.status : 'sin API',
+      modulo: state.current,
+      figuras: figs.map(function (f, i) {
+        var cs = getComputedStyle(f);
+        var r = f.getBoundingClientRect();
+        var svg = f.querySelector('svg');
+        var sr = svg && svg.getBoundingClientRect();
+        return (i + 1) + ') caja ' + Math.round(r.width) + 'x' + Math.round(r.height) +
+          ' display=' + cs.display + ' visibility=' + cs.visibility + ' opacity=' + cs.opacity +
+          ' | svg ' + (svg ? Math.round(sr.width) + 'x' + Math.round(sr.height) +
+            ' viewBox=' + svg.getAttribute('viewBox') : 'NO') +
+          ' | estado: ' + (f.querySelector('.diagram__error') ? f.querySelector('.diagram__error').textContent.slice(0, 120)
+            : f.querySelector('.diagram__pending') ? 'pendiente' : 'dibujado');
+      }),
+      errores: diagErrors
+    };
+    var pre = document.createElement('pre');
+    pre.className = 'diag-report';
+    pre.textContent = 'DIAGNÓSTICO\n' + JSON.stringify(report, null, 1);
+    var h1 = el.doc.querySelector('h1');
+    if (h1) h1.insertAdjacentElement('afterend', pre);
+    else el.doc.appendChild(pre);
   }
 
   if (!window.marked) {
