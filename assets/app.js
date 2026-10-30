@@ -431,7 +431,7 @@
     var pct = total ? Math.round((count / total) * 100) : 0;
 
     el.count.textContent = count + ' / ' + total;
-    el.bars.forEach(function (bar) { bar.style.width = pct + '%'; });
+    el.bars.forEach(function (bar) { bar.style.transform = 'scaleX(' + pct / 100 + ')'; });
     el.progress.setAttribute('aria-valuenow', String(pct));
     el.progress.setAttribute('aria-valuetext', count + ' de ' + total + ' módulos completados');
 
@@ -788,7 +788,7 @@
     el.playerTitle.textContent = mod ? mod.title : '';
     el.playerStatus.textContent = message ||
       (total ? 'Fragmento ' + Math.min(speech.index + 1, total) + ' de ' + total : '');
-    el.playerBar.style.width = total ? Math.round((speech.index / total) * 100) + '%' : '0';
+    el.playerBar.style.transform = 'scaleX(' + (total ? speech.index / total : 0) + ')';
     el.playerToggle.innerHTML = speech.playing ? ICONS.pause : ICONS.play;
     el.playerToggle.setAttribute('aria-label', speech.playing ? 'Pausar' : 'Reproducir');
     el.playerRate.textContent = formatRate(speech.rate);

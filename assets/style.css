@@ -216,10 +216,11 @@ a:hover { color: var(--accent-hover); text-decoration-thickness: 2px; }
 }
 .progress__bar {
   position: absolute;
-  inset: 0 auto 0 0;
-  width: 0;
+  inset: 0;
   background: var(--signal);
-  transition: width 0.4s var(--ease);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s var(--ease);
 }
 
 /* ---------- Navegación lateral ---------- */
@@ -475,9 +476,9 @@ body.has-player .doc tr { cursor: pointer; }
 /* Llamadas: “Tu rol como Scrum Master” y similares */
 .doc blockquote {
   margin: 2rem 0;
-  padding: 1.1rem 1.35rem 0.4rem;
+  padding: 1rem 1.35rem 0.4rem;
   background: var(--accent-wash);
-  border-left: 6px solid var(--accent);
+  border-top: 3px solid var(--accent);
   color: var(--ink);
 }
 .doc blockquote > p:first-child > strong:first-child {
@@ -491,7 +492,7 @@ body.has-player .doc tr { cursor: pointer; }
   color: var(--accent);
 }
 .doc blockquote.callout--warn {
-  border-left-color: var(--signal);
+  border-top-color: var(--signal);
   background: var(--signal-wash);
 }
 .doc blockquote.callout--warn > p:first-child > strong:first-child { color: var(--ink); }
@@ -510,7 +511,6 @@ body.has-player .doc tr { cursor: pointer; }
   margin: 0 0 1.5rem;
   padding: 1rem 1.15rem;
   background: var(--code-bg);
-  border-left: 3px solid var(--line-strong);
   line-height: 1.5;
 }
 .doc pre code {
@@ -595,7 +595,7 @@ body.has-player .doc tr { cursor: pointer; }
 .notice {
   max-width: var(--measure);
   padding: 1.5rem 1.6rem 0.6rem;
-  border-left: 6px solid var(--signal);
+  border-top: 3px solid var(--signal);
   background: var(--signal-wash);
 }
 .notice h1 { font-size: 2rem !important; }
@@ -667,10 +667,11 @@ body.has-player .doc tr { cursor: pointer; }
 }
 .player__progress span {
   display: block;
-  width: 0;
   height: 100%;
   background: var(--signal);
-  transition: width 0.3s var(--ease);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s var(--ease);
 }
 
 .player__inner {
