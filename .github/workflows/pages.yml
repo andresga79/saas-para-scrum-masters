@@ -23,16 +23,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Obtener el código
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Configurar Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Empaquetar el sitio estático
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: .
+          # Conserva .nojekyll (.git y .github se excluyen siempre).
+          include-hidden-files: true
 
       - name: Desplegar
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
