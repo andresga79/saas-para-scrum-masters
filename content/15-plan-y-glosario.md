@@ -2,7 +2,7 @@
 
 ## Idea clave
 
-Leer no basta: el aprendizaje se consolida cuando **conversas con tu equipo** sobre lo que estudiaste y lo aplicas a tu propio producto. Este plan reparte los módulos en cuatro semanas, con un ejercicio práctico al final de cada una. Dedícale entre 30 y 45 minutos diarios; si una semana se complica, desplaza el plan en lugar de saltarte los ejercicios.
+Leer no basta: el aprendizaje se consolida cuando **conversas con tu equipo** sobre lo que estudiaste y lo aplicas a tu propio producto. Este plan reparte los módulos en cuatro semanas, con ejercicios prácticos al final de cada una. Dedícale entre 30 y 45 minutos diarios; si una semana se complica, desplaza el plan en lugar de saltarte los ejercicios.
 
 ## Plan de estudio
 
@@ -20,24 +20,27 @@ gantt
     02 Monolito y microservicios    :s2, after s1, 2d
     Ejercicio 1 · Mapa del sistema  :crit, e1, after s2, 2d
 
-    section Semana 2 · Datos
+    section Semana 2 · Datos y acceso
     03 Bases de datos               :s3, 2026-11-08, 2d
-    04 Colas y asincronía           :s4, after s3, 2d
+    04 Colas y asincronía           :s4, after s3, 1d
     05 Multi-tenancy                :s5, after s4, 2d
-    Ejercicio 2 · Riesgos de datos  :crit, e2, after s5, 1d
+    06 Autenticación                :s6, after s5, 1d
+    Ejercicio 2 · Riesgos de datos  :crit, e2, after s6, 1d
 
-    section Semana 3 · Producto
-    06 Autenticación                :s6, 2026-11-15, 2d
-    07 Facturación y métricas       :s7, after s6, 2d
+    section Semana 3 · Entrega y operación
+    07 Facturación y métricas       :s7, 2026-11-15, 1d
     08 Entrega CI/CD                :s8, after s7, 2d
-    Ejercicio 3 · Flujo de entrega  :crit, e3, after s8, 1d
-
-    section Semana 4 · Operación
-    09 Nube y observabilidad        :s9, 2026-11-22, 2d
+    09 Nube y observabilidad        :s9, after s8, 1d
     10 Confiabilidad                :s10, after s9, 2d
-    11 Seguridad y cumplimiento     :s11, after s10, 2d
+    Ejercicio 3 · Flujo de entrega  :crit, e3, after s10, 1d
+
+    section Semana 4 · Riesgo, diseño e IA
+    11 Seguridad y cumplimiento     :s11, 2026-11-22, 1d
     12 Diseño y deuda técnica       :s12, after s11, 2d
-    Ejercicio 4 · Deuda priorizada  :crit, e4, after s12, 1d
+    13 IA: fundamentos              :s13, after s12, 2d
+    14 IA: RAG y agentes            :s14, after s13, 2d
+    Ejercicio 4 · Deuda priorizada  :crit, e4, after s14, 1d
+    Ejercicio 5 · IA con criterio   :crit, e5, after e4, 1d
 ```
 
 Las fechas del diagrama son solo de referencia: el eje muestra los días 1 a 30 del plan. Empieza el día que quieras.
@@ -52,7 +55,9 @@ Las fechas del diagrama son solo de referencia: el eje muestra los días 1 a 30 
 
 **Ejercicio 3 · Flujo de entrega (día 21).** Elige una historia ya terminada y reconstruye su camino: cuándo se creó la rama, cuándo se abrió el PR, cuánto esperó revisión, cuándo llegó a producción. Calcula el *lead time* y dónde estuvo la mayor espera. Compártelo en la retro como dato, no como juicio.
 
-**Ejercicio 4 · Deuda priorizada (día 30).** Facilita una sesión de 45 minutos con el equipo: listen las deudas técnicas que más les duelen, ubíquenlas en la matriz de impacto y esfuerzo del [módulo 12](12-diseno-deuda-tecnica.md) y redacten las dos más importantes en lenguaje de negocio para presentarlas al Product Owner.
+**Ejercicio 4 · Deuda priorizada (día 29).** Facilita una sesión de 45 minutos con el equipo: listen las deudas técnicas que más les duelen, ubíquenlas en la matriz de impacto y esfuerzo del [módulo 12](12-diseno-deuda-tecnica.md) y redacten las dos más importantes en lenguaje de negocio para presentarlas al Product Owner.
+
+**Ejercicio 5 · IA con criterio (día 30).** Elige una funcionalidad con IA (existente o propuesta) y, con el Product Owner y una persona del equipo, respondan en una página: qué problema resuelve, qué nivel de autonomía tiene (ver [módulo 14](14-ia-rag-agentes.md)), cómo se mide su calidad, cuál es el umbral para considerarla "hecha", cuánto cuesta por uso y qué pasa cuando se equivoca. Si alguna respuesta queda en blanco, ese es el próximo ítem del backlog.
 
 ### Autoevaluación
 
@@ -66,38 +71,51 @@ Al terminar el plan, deberías poder explicar con tus palabras:
 - Las cuatro métricas DORA clásicas y cuál es la más débil en tu equipo.
 - Qué SLO tiene (o debería tener) el flujo más importante de tu producto, y cuánto tiempo de caída mensual permite.
 - Qué es un ADR y una deuda técnica prudente y deliberada.
+- Qué es un token, una ventana de contexto y una alucinación, y por qué una funcionalidad con IA necesita evaluaciones.
+- Cómo funciona un RAG y por qué también debe filtrar por tenant y permisos.
+- Qué diferencia a un agente de un flujo de trabajo con IA, y qué acciones deberían requerir aprobación humana.
 
 ## Glosario
 
 | Término | Definición breve | Módulo |
 |---|---|---|
 | ADR | Registro breve de una decisión de arquitectura con su contexto y consecuencias. | 12 |
+| Agente | Sistema en el que un LLM decide los pasos y usa herramientas para cumplir un objetivo. | 14 |
+| Alucinación | Respuesta plausible pero falsa generada por un modelo. | 13 |
 | API | Contrato que define cómo un sistema se comunica con otro. | 01 |
 | ARR / MRR | Ingreso recurrente anual / mensual. | 07 |
 | Backoff exponencial | Esperar cada vez más entre reintentos. | 04 |
+| Base de datos vectorial | Almacén que permite buscar textos por similitud de significado. | 14 |
 | Blue-green | Despliegue con dos entornos idénticos entre los que se cambia el tráfico. | 08 |
 | Caché | Copia rápida de datos para evitar recalcularlos o volver a buscarlos. | 03, 09 |
 | Canario | Despliegue que expone la versión nueva a una fracción pequeña del tráfico. | 08 |
 | CDN | Red de servidores distribuidos que entrega contenido cerca del usuario. | 09 |
 | Churn | Pérdida de clientes o de ingresos en un periodo. | 07 |
 | CI/CD | Integración continua y entrega o despliegue continuo. | 08 |
-| Contexto delimitado | Frontera dentro de la cual un modelo de dominio es coherente (DDD). | 12 |
 | Cobertura de código | Porcentaje del código ejecutado por las pruebas. | 08 |
+| Contexto delimitado | Frontera dentro de la cual un modelo de dominio es coherente (DDD). | 12 |
 | DLQ | Cola donde terminan los mensajes que no se pudieron procesar. | 04 |
 | DORA | Programa de investigación y sus métricas de desempeño de entrega de software. | 08 |
 | DPA | Acuerdo de procesamiento de datos entre responsable y encargado. | 11 |
 | Dunning | Proceso de reintentar cobros fallidos y avisar al cliente. | 07 |
 | E2E | Prueba de punta a punta que simula a un usuario real. | 08 |
+| Embedding | Representación numérica del significado de un texto. | 13, 14 |
 | Entitlements | Funcionalidades y límites que corresponden a cada plan. | 07 |
 | Error budget | Margen de falla permitido por un SLO en un periodo. | 10 |
+| Evals | Evaluaciones que miden la calidad de un sistema con IA sobre muchos casos. | 13, 14 |
 | Feature flag | Interruptor que enciende o apaga una funcionalidad sin desplegar. | 08 |
-| Idempotencia | Propiedad de una operación que produce el mismo resultado si se repite. | 01, 04 |
+| Fine-tuning | Ajuste de un modelo existente con ejemplos propios. | 13, 14 |
+| Human-in-the-loop | Punto en que una persona revisa o aprueba antes de que la IA actúe. | 14 |
 | IaC | Infraestructura como código: infraestructura descrita en archivos versionados. | 09 |
+| Idempotencia | Propiedad de una operación que produce el mismo resultado si se repite. | 01, 04 |
 | IdP | Proveedor de identidad que gestiona las cuentas de una organización. | 06 |
 | Índice | Estructura que acelera búsquedas en una base de datos. | 03 |
+| Inyección de prompt | Instrucciones maliciosas en la entrada o en contenido que lee el modelo. | 14 |
 | JWT | Formato de token firmado que transporta datos del usuario. | 06 |
 | Latencia p95 | Tiempo bajo el cual responde el 95 % de las peticiones. | 09 |
 | Lead time de cambios | Tiempo desde el commit hasta producción. | 08 |
+| LLM | Modelo de lenguaje grande: genera texto prediciendo el siguiente token. | 13 |
+| MCP | Protocolo abierto para conectar aplicaciones de IA con herramientas y datos. | 14 |
 | MFA | Autenticación con más de un factor. | 06 |
 | Microservicios | Arquitectura de servicios pequeños desplegados por separado. | 02 |
 | Migración de esquema | Cambio versionado de la estructura de la base de datos. | 03 |
@@ -112,7 +130,9 @@ Al terminar el plan, deberías poder explicar con tus palabras:
 | OIDC | Capa de identidad sobre OAuth 2.0, base de muchos SSO. | 06 |
 | OWASP Top 10 | Lista de categorías de riesgo más críticas en aplicaciones web. | 11 |
 | Postmortem | Análisis sin culpables de un incidente, con acciones de mejora. | 10 |
+| Prompt | Entrada que recibe un modelo; el *system prompt* fija su rol y reglas. | 13 |
 | Pull request | Propuesta de cambio de código que se revisa antes de integrarse. | 08 |
+| RAG | Generación aumentada con recuperación: agregar datos relevantes al contexto en cada consulta. | 14 |
 | Rate limiting | Límite de peticiones por cliente en un periodo. | 01 |
 | RBAC | Control de acceso basado en roles. | 06 |
 | Réplica de lectura | Copia de la base de datos para consultas de solo lectura. | 03 |
@@ -123,9 +143,13 @@ Al terminar el plan, deberías poder explicar con tus palabras:
 | SOC 2 | Informe de auditoría sobre controles basado en criterios del AICPA. | 11 |
 | SSO | Inicio de sesión único para varias aplicaciones. | 06 |
 | Strangler fig | Migración gradual que reemplaza un sistema antiguo pieza por pieza. | 02 |
+| Temperatura | Parámetro que regula el azar en las respuestas de un modelo. | 13 |
 | Tenant | Cliente (organización) dentro de un SaaS multi-tenant. | 05 |
+| Token | Fragmento de texto con que trabaja un modelo; unidad de costo y de límite. | 13 |
+| Tool use | Capacidad de un modelo de pedir el uso de herramientas externas. | 14 |
 | Traza | Registro del recorrido de una petición entre servicios. | 09 |
 | Trunk-based development | Integrar cambios pequeños a la rama principal con mucha frecuencia. | 08 |
+| Ventana de contexto | Máximo de tokens que un modelo puede considerar a la vez. | 13 |
 | Webhook | Aviso HTTP que un sistema envía a otro cuando ocurre un evento. | 01 |
 
 ## Lecturas recomendadas
@@ -143,6 +167,7 @@ Al terminar el plan, deberías poder explicar con tus palabras:
 - *Designing Data-Intensive Applications* — Martin Kleppmann. Bases de datos, colas y sistemas distribuidos en profundidad.
 - *Domain-Driven Design* — Eric Evans, y *Domain-Driven Design Distilled* — Vaughn Vernon, una introducción más breve.
 - *The Phoenix Project* — Gene Kim, Kevin Behr y George Spafford. Novela sobre operaciones de TI y DevOps, útil para contextos no técnicos.
+- *AI Engineering* — Chip Huyen. Cómo construir aplicaciones sobre modelos fundacionales: evaluación, RAG, agentes y operación.
 
 **Recursos en línea**
 
@@ -152,6 +177,9 @@ Al terminar el plan, deberías poder explicar con tus palabras:
 - [martinfowler.com](https://martinfowler.com): artículos sobre deuda técnica, *strangler fig*, feature flags y más.
 - [adr.github.io](https://adr.github.io): plantillas y ejemplos de ADR.
 - [opentelemetry.io](https://opentelemetry.io): documentación del estándar de observabilidad.
+- [anthropic.com/engineering/building-effective-agents](https://www.anthropic.com/engineering/building-effective-agents): cuándo usar flujos de trabajo y cuándo agentes.
+- [modelcontextprotocol.io](https://modelcontextprotocol.io): especificación y documentación de MCP.
+- [genai.owasp.org](https://genai.owasp.org): Top 10 de riesgos para aplicaciones con LLM y otros recursos de seguridad en IA.
 
 ## Preguntas para tu equipo
 

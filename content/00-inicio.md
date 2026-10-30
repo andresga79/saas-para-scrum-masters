@@ -17,6 +17,7 @@ flowchart TB
     APP --> Q["Colas y trabajos · 04"]
     APP --> BILL["Facturación y métricas · 07"]
     DB -.- MT["Multi-tenancy · 05"]
+    APP --> AI["IA: LLM, RAG y agentes · 13 y 14"]
 
     subgraph PLATAFORMA["Cómo se construye y se opera"]
         direction LR
@@ -35,7 +36,7 @@ flowchart TB
     TRANSVERSAL ~~~ PLATAFORMA
 ```
 
-Lee el diagrama de arriba hacia abajo como el viaje de una petición: alguien inicia sesión, llama a una API, la aplicación hace su trabajo, guarda datos, deja tareas pendientes en una cola y, si corresponde, registra algo que se cobra. Debajo está la plataforma que permite cambiar todo eso con seguridad, y alrededor, dos temas que tocan cada decisión: seguridad y diseño.
+Lee el diagrama de arriba hacia abajo como el viaje de una petición: alguien inicia sesión, llama a una API, la aplicación hace su trabajo, guarda datos, deja tareas pendientes en una cola, puede apoyarse en modelos de IA y, si corresponde, registra algo que se cobra. Al costado está la plataforma que permite cambiar todo eso con seguridad, y alrededor, dos temas que tocan cada decisión: seguridad y diseño.
 
 ## Lo que debes entender
 
@@ -58,14 +59,16 @@ No todos los módulos pesan igual para tu trabajo diario. Esta es una sugerencia
 |---|---|---|
 | Alta | 01 APIs, 08 Entrega CI/CD, 10 Confiabilidad, 12 Deuda técnica | Aparecen en casi todos los sprints y afectan directamente el flujo de trabajo. |
 | Media | 02 Arquitectura, 03 Bases de datos, 05 Multi-tenancy, 06 Autenticación, 09 Observabilidad | Explican por qué ciertas historias son más caras o riesgosas de lo que parecen. |
+| Alta si tu producto usa IA | 13 IA: fundamentos, 14 IA: RAG y agentes | La IA cambia cómo se estima, se prueba y se define "hecho"; y tu equipo probablemente ya la usa para programar. |
 | Contexto | 04 Colas, 07 Facturación, 11 Seguridad y cumplimiento | Muy importantes, pero suelen tener dueños especializados; necesitas entender el lenguaje y los riesgos. |
-| Práctica | 13 Plan y glosario | Úsalo como ruta de 30 días y como consulta rápida. |
+| Práctica | 15 Plan y glosario | Úsalo como ruta de 30 días y como consulta rápida. |
 
 ### Cómo usar esta guía
 
 - Marca cada módulo como completado en la barra lateral: el progreso queda guardado en este navegador.
+- ¿Prefieres escuchar? Usa el botón **Escuchar este módulo**: el navegador lee el texto en voz alta con las voces de tu dispositivo, también en iPhone.
 - Lleva **una** pregunta por semana a tu equipo. Es mejor una conversación honesta que diez preguntas de checklist.
-- Cuando no entiendas algo en una reunión, anótalo y búscalo aquí o en el [glosario](13-plan-y-glosario.md).
+- Cuando no entiendas algo en una reunión, anótalo y búscalo aquí o en el [glosario](15-plan-y-glosario.md).
 
 ## Preguntas para tu equipo
 
