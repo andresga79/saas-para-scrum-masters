@@ -262,7 +262,10 @@
       securityLevel: 'strict',
       theme: 'base',
       themeVariables: vars,
-      flowchart: { curve: 'basis', padding: 12 },
+      // Etiquetas en SVG puro: Safari 27 mide mal el HTML dentro de foreignObject
+      // y Mermaid calcula diagramas ~20 veces más grandes de lo real.
+      htmlLabels: false,
+      flowchart: { curve: 'basis', padding: 12, htmlLabels: false },
       sequence: { mirrorActors: false },
       gantt: { barHeight: 22, fontSize: 12, sectionFontSize: 13, leftPadding: 175 }
     };

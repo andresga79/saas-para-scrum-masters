@@ -10,10 +10,10 @@ El diseño de software decide **qué tan caro será el próximo cambio**. Un bue
 
 ```mermaid
 flowchart TB
-    VENTAS["<b>Ventas</b><br/>cliente = prospecto con oportunidad"]
-    SUSC["<b>Suscripciones</b><br/>cliente = cuenta con plan y estado"]
-    FACT["<b>Facturación</b><br/>cliente = entidad tributaria que paga"]
-    SOP["<b>Soporte</b><br/>cliente = persona que abre tickets"]
+    VENTAS["Ventas<br/>cliente = prospecto con oportunidad"]
+    SUSC["Suscripciones<br/>cliente = cuenta con plan y estado"]
+    FACT["Facturación<br/>cliente = entidad tributaria que paga"]
+    SOP["Soporte<br/>cliente = persona que abre tickets"]
 
     VENTAS -- "evento: contrato firmado" --> SUSC
     SUSC -- "evento: periodo renovado" --> FACT
