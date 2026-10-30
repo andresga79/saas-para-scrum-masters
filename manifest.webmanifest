@@ -1,0 +1,15 @@
+{
+  "name": "SaaS para Scrum Masters",
+  "short_name": "SaaS para SM",
+  "description": "Guía de estudio: lo técnico de un SaaS y la IA, con mirada de Scrum Master.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#e7ebf1",
+  "theme_color": "#14213d",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

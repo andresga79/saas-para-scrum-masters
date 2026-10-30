@@ -2,10 +2,19 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>SaaS para Scrum Masters</title>
   <meta name="description" content="Guía de estudio para que un Scrum Master converse de igual a igual con su equipo técnico sobre productos SaaS.">
   <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#dbe1ea" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0a101c" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="SaaS para SM">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/icon-180.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
@@ -40,7 +49,7 @@
     </nav>
 
     <main id="contenido" class="main" tabindex="-1">
-      <article class="doc" id="doc" aria-live="polite">
+      <article class="doc" id="doc">
         <p class="loading">Cargando…</p>
       </article>
       <div class="doc-footer" id="doc-footer" hidden>
@@ -56,6 +65,45 @@
     </main>
   </div>
   <div class="scrim" hidden></div>
+
+  <section class="player" id="player" aria-label="Lectura en voz alta" hidden>
+    <div class="player__progress" aria-hidden="true"><span></span></div>
+    <div class="player__inner">
+      <div class="player__info">
+        <p class="player__title" id="player-title"></p>
+        <p class="player__status" id="player-status"></p>
+      </div>
+      <div class="player__controls">
+        <button type="button" class="player__btn" data-player="prev" aria-label="Bloque anterior">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg>
+        </button>
+        <button type="button" class="player__btn player__btn--main" data-player="toggle" aria-label="Reproducir">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button type="button" class="player__btn" data-player="next" aria-label="Bloque siguiente">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5l11 7-11 7z"/></svg>
+        </button>
+        <button type="button" class="player__btn player__rate" data-player="rate" aria-label="Velocidad de lectura">1×</button>
+        <button type="button" class="player__btn" data-player="settings" aria-label="Ajustes de voz" aria-expanded="false" aria-controls="player-settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h10v2H3zM17 6h4v2h-4zM13 3h2v8h-2zM3 16h4v2H3zM11 16h10v2H11zM7 13h2v8H7z"/></svg>
+        </button>
+        <button type="button" class="player__btn" data-player="close" aria-label="Detener y cerrar la lectura">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12 19 6.4 17.6 5 12 10.6z"/></svg>
+        </button>
+      </div>
+      <div class="player__settings" id="player-settings" hidden>
+        <label class="player__field">
+          <span>Voz</span>
+          <select id="player-voice"></select>
+        </label>
+        <label class="player__auto">
+          <input class="check" type="checkbox" id="player-auto">
+          <span>Seguir con el siguiente módulo al terminar</span>
+        </label>
+        <p class="player__tip">Toca cualquier párrafo para leer desde ahí. Las voces disponibles dependen de tu dispositivo; en iPhone puedes descargar voces de mejor calidad en Ajustes › Accesibilidad › Contenido leído › Voces.</p>
+      </div>
+    </div>
+  </section>
 
   <script src="https://cdn.jsdelivr.net/npm/marked@18.0.14/lib/marked.umd.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11.17.2/dist/mermaid.min.js"></script>
