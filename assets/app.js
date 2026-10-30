@@ -207,11 +207,39 @@
       themeVariables: vars,
       flowchart: { curve: 'basis', padding: 12 },
       sequence: { mirrorActors: false },
-      gantt: { barHeight: 22, fontSize: 12, sectionFontSize: 13, leftPadding: 90 }
+      gantt: { barHeight: 22, fontSize: 12, sectionFontSize: 13, leftPadding: 175 }
     };
   }
 
   var mermaidSeq = 0;
+  // Bajo esta escala el texto del diagrama deja de ser legible: se conserva el
+  // tamaño y la caja del diagrama se desplaza horizontalmente.
+  // Si cabe completo a una escala de al menos FIT_SCALE, se prefiere eso al scroll.
+  var MIN_SCALE = 0.7;
+  var FIT_SCALE = 0.6;
+  var GANTT_MIN_WIDTH = 720;
+
+  function fitDiagram(figure) {
+    var canvas = figure.querySelector('.diagram__canvas');
+    var svg = canvas && canvas.querySelector('svg');
+    var hint = figure.querySelector('.diagram__hint');
+    if (!svg || !hint) return;
+    if (!figure.classList.contains('diagram--gantt')) {
+      var natural = svg.viewBox && svg.viewBox.baseVal ? svg.viewBox.baseVal.width : 0;
+      svg.style.width = '';
+      svg.style.maxWidth = natural ? natural + 'px' : '';
+      var minWidth = Math.ceil(natural * MIN_SCALE);
+      if (natural && canvas.clientWidth / natural < FIT_SCALE) {
+        svg.style.width = minWidth + 'px';
+        svg.style.maxWidth = 'none';
+      }
+    }
+    hint.hidden = canvas.scrollWidth <= canvas.clientWidth + 1;
+  }
+
+  function fitAllDiagrams() {
+    el.doc.querySelectorAll('.diagram').forEach(fitDiagram);
+  }
 
   function renderDiagrams(root, token) {
     if (!window.mermaid) return Promise.resolve();
@@ -226,12 +254,19 @@
           if (token !== state.renderToken) return;
           var src = figure.getAttribute('data-src');
           var id = 'mmd-' + (++mermaidSeq);
-          return mermaid.render(id, src).then(function (out) {
+          var isGantt = /^gantt\b/.test(src.trim());
+          figure.classList.toggle('diagram--gantt', isGantt);
+          figure.innerHTML = '<div class="diagram__canvas"><div class="diagram__stage">' +
+            '<p class="diagram__pending">Dibujando diagrama…</p></div></div>' +
+            '<p class="diagram__hint" hidden>Desliza horizontalmente para ver el diagrama completo →</p>';
+          var stage = figure.querySelector('.diagram__stage');
+          // El Gantt calcula su ancho a partir del contenedor en que se dibuja.
+          if (isGantt) stage.style.width = 'max(' + GANTT_MIN_WIDTH + 'px, 100%)';
+          return mermaid.render(id, src, stage).then(function (out) {
             if (token !== state.renderToken) return;
-            figure.innerHTML = out.svg;
-            var svg = figure.querySelector('svg');
-            if (svg && /^gantt/.test(src.trim())) figure.classList.add('diagram--gantt');
-            if (out.bindFunctions) out.bindFunctions(figure);
+            stage.innerHTML = out.svg;
+            if (out.bindFunctions) out.bindFunctions(stage);
+            fitDiagram(figure);
           }).catch(function (err) {
             var stray = document.getElementById('d' + id);
             if (stray) stray.remove();
@@ -497,6 +532,12 @@
       syncSidebarInert();
     });
     syncSidebarInert();
+
+    var resizeTimer = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(fitAllDiagrams, 150);
+    });
 
     // Mermaid cambia de tema junto con el sistema operativo.
     darkQuery.addEventListener('change', function () {

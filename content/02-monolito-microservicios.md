@@ -9,7 +9,7 @@ La arquitectura es la forma en que se reparte el código y las responsabilidades
 ### Monolito frente a microservicios
 
 ```mermaid
-flowchart TB
+flowchart LR
     subgraph MONO["Monolito: un despliegue"]
         direction TB
         UI1["Interfaz"] --> M["Aplicación única<br/>usuarios · pedidos · facturación · reportes"]
@@ -28,12 +28,14 @@ flowchart TB
         SP --> DBP[("BD pedidos")]
         SF --> DBF[("BD facturación")]
     end
+
+    MONO ~~~ MICRO
 ```
 
 ### Migración gradual: el patrón *strangler fig*
 
 ```mermaid
-flowchart LR
+flowchart TB
     C["Clientes"] --> R{"Enrutador"}
     R -- "rutas antiguas" --> L["Monolito existente"]
     R -- "rutas migradas" --> N["Servicio nuevo"]

@@ -9,32 +9,33 @@ Un SaaS (*Software as a Service*) es software que el cliente no instala: lo usa 
 ## Mapa general
 
 ```mermaid
-flowchart LR
-    U["Usuarios y clientes"] --> AUTH["Autenticación y autorización<br/>módulo 06"]
-    AUTH --> API["APIs<br/>módulo 01"]
-    API --> APP["Aplicación<br/>monolito o servicios · módulo 02"]
-    APP --> DB[("Bases de datos<br/>módulo 03")]
-    APP --> Q["Colas y trabajos<br/>módulo 04"]
-    APP --> BILL["Facturación y métricas<br/>módulo 07"]
-    DB -.- MT["Multi-tenancy<br/>módulo 05"]
+flowchart TB
+    U["Usuarios y clientes"] --> AUTH["Autenticación y autorización · 06"]
+    AUTH --> API["APIs · 01"]
+    API --> APP["Aplicación: monolito o servicios · 02"]
+    APP --> DB[("Bases de datos · 03")]
+    APP --> Q["Colas y trabajos · 04"]
+    APP --> BILL["Facturación y métricas · 07"]
+    DB -.- MT["Multi-tenancy · 05"]
 
     subgraph PLATAFORMA["Cómo se construye y se opera"]
-        CICD["Entrega CI/CD<br/>módulo 08"]
-        CLOUD["Nube y observabilidad<br/>módulo 09"]
-        REL["Confiabilidad e incidentes<br/>módulo 10"]
+        direction LR
+        CICD["Entrega CI/CD · 08"]
+        CLOUD["Nube y observabilidad · 09"]
+        REL["Confiabilidad · 10"]
     end
 
     subgraph TRANSVERSAL["Lo que atraviesa todo"]
-        SEC["Seguridad y cumplimiento<br/>módulo 11"]
-        DES["Diseño y deuda técnica<br/>módulo 12"]
+        direction LR
+        SEC["Seguridad y cumplimiento · 11"]
+        DES["Diseño y deuda técnica · 12"]
     end
 
-    CICD --> APP
-    CLOUD --> APP
-    REL --> CLOUD
+    PLATAFORMA ==> APP
+    TRANSVERSAL ~~~ PLATAFORMA
 ```
 
-Lee el diagrama de izquierda a derecha como el viaje de una petición: alguien inicia sesión, llama a una API, la aplicación hace su trabajo, guarda datos, deja tareas pendientes en una cola y, si corresponde, registra algo que se cobra. Debajo está la plataforma que permite cambiar todo eso con seguridad, y alrededor, dos temas que tocan cada decisión: seguridad y diseño.
+Lee el diagrama de arriba hacia abajo como el viaje de una petición: alguien inicia sesión, llama a una API, la aplicación hace su trabajo, guarda datos, deja tareas pendientes en una cola y, si corresponde, registra algo que se cobra. Debajo está la plataforma que permite cambiar todo eso con seguridad, y alrededor, dos temas que tocan cada decisión: seguridad y diseño.
 
 ## Lo que debes entender
 

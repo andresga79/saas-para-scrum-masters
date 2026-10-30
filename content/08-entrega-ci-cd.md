@@ -26,17 +26,21 @@ gitGraph
 ### Pipeline de CI/CD
 
 ```mermaid
-flowchart LR
-    A["Commit y<br/>pull request"] --> B["Build"]
-    B --> C["Pruebas unitarias<br/>y análisis estático"]
-    C --> D["Revisión de código"]
-    D --> E["Merge a main"]
-    E --> F["Pruebas de integración"]
-    F --> G["Despliegue a staging"]
-    G --> H{"¿Pruebas de humo<br/>en verde?"}
-    H -- "sí" --> I["Despliegue a producción<br/>gradual"]
+flowchart TB
+    subgraph CI["Integración continua · en cada pull request"]
+        A["Commit y pull request"] --> B["Build"]
+        B --> C["Pruebas unitarias<br/>y análisis estático"]
+        C --> D["Revisión de código"]
+    end
+    subgraph CD["Entrega continua · tras el merge"]
+        E["Merge a main"] --> F["Pruebas de integración"]
+        F --> G["Despliegue a staging"]
+        G --> H{"¿Pruebas de humo<br/>en verde?"}
+    end
+    D --> CD
+    H -- "sí" --> I["Despliegue a producción gradual"]
     H -- "no" --> J["Se detiene y<br/>se avisa al equipo"]
-    I --> K["Monitoreo y<br/>rollback si hace falta"]
+    I --> K["Monitoreo y rollback<br/>si hace falta"]
 ```
 
 ### Pirámide de pruebas
@@ -54,7 +58,7 @@ La idea: muchas pruebas pequeñas y rápidas en la base, menos pruebas grandes y
 ### Desplegar no es lanzar: *feature flags*
 
 ```mermaid
-flowchart LR
+flowchart TB
     D["Código desplegado<br/>con la funcionalidad apagada"] --> F{"Feature flag"}
     F -- "apagado" --> OFF["Todos ven la versión actual"]
     F -- "equipo interno" --> T["Pruebas en producción"]

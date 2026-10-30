@@ -10,22 +10,13 @@ La seguridad no es una funcionalidad que se agrega al final, sino una propiedad 
 
 ```mermaid
 flowchart TB
-    subgraph L1["Perímetro"]
-        subgraph L2["Red"]
-            subgraph L3["Identidad y acceso"]
-                subgraph L4["Aplicación"]
-                    subgraph L5["Datos"]
-                        D[("Datos del cliente")]
-                    end
-                end
-            end
-        end
-    end
-    N1["WAF, protección DDoS, CDN"] -.-> L1
-    N2["Redes privadas, firewalls, segmentación"] -.-> L2
-    N3["SSO, MFA, mínimo privilegio, revisión de accesos"] -.-> L3
-    N4["Validación de entradas, control de acceso,<br/>dependencias actualizadas, revisión de código"] -.-> L4
-    N5["Cifrado en tránsito y en reposo,<br/>respaldos, registro de auditoría"] -.-> L5
+    A["Atacante o error humano"] --> L1
+    L1["1 · Perímetro<br/>WAF, protección DDoS, CDN"] --> L2
+    L2["2 · Red<br/>redes privadas, firewalls, segmentación"] --> L3
+    L3["3 · Identidad y acceso<br/>SSO, MFA, mínimo privilegio, revisión de accesos"] --> L4
+    L4["4 · Aplicación<br/>validación de entradas, control de acceso,<br/>dependencias al día, revisión de código"] --> L5
+    L5["5 · Datos<br/>cifrado en tránsito y en reposo,<br/>respaldos, registro de auditoría"] --> D[("Datos del cliente")]
+    MON["Monitoreo y respuesta a incidentes<br/>atraviesa todas las capas"] -.-> L1 & L2 & L3 & L4 & L5
 ```
 
 Ninguna capa es perfecta. La idea es que, si una falla, la siguiente todavía protege.

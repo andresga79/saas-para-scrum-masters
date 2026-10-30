@@ -10,13 +10,13 @@ La base de datos es la **memoria** del producto y, casi siempre, la parte más d
 
 ```mermaid
 erDiagram
-    TENANT ||--o{ USUARIO : "tiene"
-    TENANT ||--o{ PROYECTO : "tiene"
     TENANT ||--|| SUSCRIPCION : "paga"
-    USUARIO ||--o{ MEMBRESIA : "participa en"
-    PROYECTO ||--o{ MEMBRESIA : "incluye"
+    TENANT ||--o{ PROYECTO : "tiene"
+    TENANT ||--o{ USUARIO : "tiene"
     PROYECTO ||--o{ TAREA : "contiene"
-    USUARIO ||--o{ TAREA : "es responsable de"
+    PROYECTO ||--o{ MEMBRESIA : "incluye"
+    USUARIO ||--o{ MEMBRESIA : "participa en"
+    USUARIO ||--o{ TAREA : "responsable"
 
     TENANT {
         uuid id PK

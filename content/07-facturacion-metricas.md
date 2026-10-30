@@ -10,27 +10,26 @@ En un SaaS, el cliente no compra una vez: **renueva** cada mes o cada año. Por 
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Prueba: alta con prueba gratuita
-    [*] --> Activa: alta con pago inmediato
-    Prueba --> Activa: primer cobro exitoso
-    Prueba --> Expirada: termina la prueba sin pago
-    Activa --> Activa: renovación cobrada
+    [*] --> Prueba: alta con prueba
+    [*] --> Activa: alta con pago
+    Prueba --> Activa: primer cobro
+    Prueba --> Expirada: sin pago
     Activa --> Impaga: falla el cobro
-    Impaga --> Activa: reintento exitoso o nuevo medio de pago
-    Impaga --> Suspendida: se agotan los reintentos
-    Suspendida --> Activa: el cliente regulariza
-    Activa --> Cancelada: el cliente cancela
-    Suspendida --> Cancelada: vence el plazo de gracia
+    Impaga --> Activa: cobro recuperado
+    Impaga --> Suspendida: sin más reintentos
+    Suspendida --> Activa: regulariza
+    Activa --> Cancelada: cancela
+    Suspendida --> Cancelada: vence la gracia
     Expirada --> [*]
     Cancelada --> [*]
 ```
 
-Cada transición suele disparar algo: correos, cambios de acceso, eventos para las métricas. Las preguntas difíciles están en los bordes: ¿qué puede hacer un cliente "Impago"? ¿Cuánto tiempo conservamos los datos de uno "Cancelado"?
+Cada renovación cobrada mantiene la suscripción en "Activa". Cada transición suele disparar algo: correos, cambios de acceso, eventos para las métricas. Las preguntas difíciles están en los bordes: ¿qué puede hacer un cliente "Impago"? ¿Cuánto tiempo conservamos los datos de uno "Cancelado"?
 
 ### De dónde sale el MRR del mes
 
 ```mermaid
-flowchart LR
+flowchart TB
     I["MRR al inicio del mes"] --> N["+ Nuevo<br/>clientes nuevos"]
     N --> E["+ Expansión<br/>mejoras de plan, más usuarios"]
     E --> C["− Contracción<br/>bajas de plan"]

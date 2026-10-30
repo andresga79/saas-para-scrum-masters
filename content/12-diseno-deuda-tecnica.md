@@ -9,19 +9,11 @@ El diseño de software decide **qué tan caro será el próximo cambio**. Un bue
 ### Contextos delimitados (DDD conceptual)
 
 ```mermaid
-flowchart LR
-    subgraph VENTAS["Contexto: Ventas"]
-        V1["Cliente = prospecto<br/>con oportunidad"]
-    end
-    subgraph SUSC["Contexto: Suscripciones"]
-        S1["Cliente = cuenta<br/>con plan y estado"]
-    end
-    subgraph FACT["Contexto: Facturación"]
-        F1["Cliente = entidad<br/>tributaria que paga"]
-    end
-    subgraph SOP["Contexto: Soporte"]
-        P1["Cliente = persona<br/>que abre tickets"]
-    end
+flowchart TB
+    VENTAS["<b>Ventas</b><br/>cliente = prospecto con oportunidad"]
+    SUSC["<b>Suscripciones</b><br/>cliente = cuenta con plan y estado"]
+    FACT["<b>Facturación</b><br/>cliente = entidad tributaria que paga"]
+    SOP["<b>Soporte</b><br/>cliente = persona que abre tickets"]
 
     VENTAS -- "evento: contrato firmado" --> SUSC
     SUSC -- "evento: periodo renovado" --> FACT
@@ -34,8 +26,8 @@ La misma palabra, "cliente", significa cosas distintas en cada área. DDD propon
 
 ```mermaid
 flowchart TD
-    A["Se identifica una deuda técnica"] --> B{"¿Afecta trabajo<br/>planificado en los próximos<br/>meses?"}
-    B -- "no" --> C{"¿Implica riesgo de seguridad,<br/>datos o cumplimiento?"}
+    A["Se identifica una deuda técnica"] --> B{"¿Afecta trabajo<br/>planificado pronto?"}
+    B -- "no" --> C{"¿Implica riesgo<br/>de seguridad, datos<br/>o cumplimiento?"}
     C -- "no" --> D["Registrar y revisar<br/>periódicamente"]
     C -- "sí" --> E["Priorizar como riesgo<br/>con el Product Owner"]
     B -- "sí" --> F{"¿Se puede pagar<br/>junto con esas historias?"}
@@ -58,9 +50,9 @@ quadrantChart
     quadrant-4 Evitar o replantear
     Dependencias vencidas: [0.25, 0.8]
     Pruebas inestables: [0.35, 0.7]
-    Módulo de facturación acoplado: [0.8, 0.85]
+    Facturación acoplada: [0.72, 0.85]
     Renombrar variables: [0.15, 0.15]
-    Reescribir el frontend: [0.9, 0.35]
+    Reescribir el frontend: [0.72, 0.3]
 ```
 
 Los ítems del gráfico son ejemplos para ilustrar la herramienta; ubica los de tu equipo en una sesión conjunta.

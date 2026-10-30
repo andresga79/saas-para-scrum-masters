@@ -10,38 +10,27 @@ La nube convierte servidores, bases de datos y redes en **servicios que se alqui
 
 ```mermaid
 flowchart TB
-    U["Usuarios"] --> DNS["DNS"]
-    DNS --> CDN["CDN y WAF<br/>contenido estático y filtro de ataques"]
-    CDN --> LB["Balanceador de carga"]
+    U["Usuarios"] --> EDGE["DNS, CDN y WAF<br/>contenido estático y filtro de ataques"]
+    EDGE --> LB["Balanceador de carga"]
 
-    subgraph REGION["Región de la nube"]
-        subgraph PUB["Red pública"]
-            LB
-        end
-        subgraph PRIV["Red privada"]
-            APP1["App · instancia 1"]
-            APP2["App · instancia 2"]
-            WK["Workers"]
-            Q[["Cola"]]
-            CACHE[("Caché")]
-            DB[("Base de datos principal")]
-            DBR[("Réplica")]
-        end
-        OBJ[("Almacenamiento de objetos<br/>archivos y respaldos")]
+    subgraph PRIV["Red privada · repartida en varias zonas de disponibilidad"]
+        APP["Aplicación<br/>varias instancias"]
+        CACHE[("Caché")]
+        DB[("Base de datos<br/>principal")]
+        DBR[("Réplica")]
+        Q[["Cola"]]
+        WK["Workers"]
+        APP --> CACHE
+        APP --> DB
+        DB -. "replica" .-> DBR
+        APP --> Q
+        Q --> WK
+        WK --> DB
     end
 
-    LB --> APP1
-    LB --> APP2
-    APP1 --> CACHE
-    APP2 --> CACHE
-    APP1 --> DB
-    APP2 --> DB
-    DB -. "replica" .-> DBR
-    APP1 --> Q
-    Q --> WK
-    WK --> DB
-    WK --> OBJ
-    APP1 & APP2 & WK -. "logs, métricas, trazas" .-> OBS["Plataforma de observabilidad"]
+    LB --> PRIV
+    WK --> OBJ[("Almacenamiento de objetos<br/>archivos y respaldos")]
+    APP -. "logs, métricas y trazas" .-> OBS["Plataforma de<br/>observabilidad"]
 ```
 
 ### Los pilares de la observabilidad

@@ -488,16 +488,24 @@ a:hover { color: var(--accent-hover); text-decoration-thickness: 2px; }
 .diagram {
   margin: 1.75rem 0 2.25rem;
   padding: 1.25rem;
-  overflow-x: auto;
   background: var(--bg-raised);
   border: 1px solid var(--line);
+}
+.diagram__canvas {
+  overflow-x: auto;
   text-align: center;
 }
 .diagram svg {
+  display: inline-block;
   max-width: 100%;
   height: auto;
 }
-.diagram--wide svg { max-width: none; }
+.diagram__hint {
+  margin: 0.75rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
 .diagram .diagram__error {
   text-align: left;
   color: var(--danger);
@@ -671,7 +679,10 @@ a:hover { color: var(--accent-hover); text-decoration-thickness: 2px; }
 /* ---------- Impresión ---------- */
 
 @media print {
-  :root {
+  /* Misma especificidad que las reglas de modo oscuro, declaradas antes. */
+  :root:not([data-theme="light"]),
+  :root[data-theme="light"] {
+    color-scheme: light;
     --bg: #fff;
     --bg-raised: #fff;
     --ink: #000;
@@ -700,6 +711,14 @@ a:hover { color: var(--accent-hover); text-decoration-thickness: 2px; }
   .doc blockquote,
   .doc pre { break-inside: avoid; }
   .diagram { border: 0; padding: 0; }
+  .diagram__canvas { overflow: visible; }
+  .diagram svg { width: auto !important; max-width: 100% !important; }
+  .diagram__hint { display: none; }
+}
+
+/* Los diagramas se dibujan con el tema activo; en papel se aclaran. */
+@media print and (prefers-color-scheme: dark) {
+  .diagram svg { filter: invert(1) hue-rotate(180deg); }
   .table-wrap { overflow: visible; }
   .table-wrap table { min-width: 0; }
 }

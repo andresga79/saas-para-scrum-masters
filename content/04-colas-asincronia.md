@@ -9,7 +9,7 @@ No todo debe ocurrir mientras el usuario espera. Enviar correos, generar un PDF,
 ### Cola con workers y cola de mensajes fallidos (DLQ)
 
 ```mermaid
-flowchart LR
+flowchart TB
     APP["Aplicación web"] -- "publica: generar factura" --> Q[["Cola principal"]]
     Q --> W1["Worker 1"]
     Q --> W2["Worker 2"]

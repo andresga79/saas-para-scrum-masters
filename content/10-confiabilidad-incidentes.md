@@ -9,7 +9,7 @@ Ningún sistema está disponible el 100 % del tiempo, y perseguir ese número sa
 ### Ciclo de vida de un incidente
 
 ```mermaid
-flowchart LR
+flowchart TB
     A["Detección<br/>alerta o reporte"] --> B["Triage<br/>severidad y responsable"]
     B --> C["Respuesta<br/>comandante del incidente,<br/>canal y comunicación"]
     C --> D["Mitigación<br/>restaurar el servicio<br/>rollback, flag, escalar"]

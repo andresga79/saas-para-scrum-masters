@@ -26,6 +26,8 @@ flowchart TB
         A3 --> D3B[("BD cliente B")]
         A3 --> D3C[("BD cliente C")]
     end
+
+    M1 ~~~ M2 ~~~ M3
 ```
 
 ## Lo que debes entender
