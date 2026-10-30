@@ -50,16 +50,16 @@ sequenceDiagram
     actor U as Usuario
     participant A as App con IA
     participant M as LLM
-    participant S as Servidor MCP<br/>(ej.: gestor de tickets)
+    participant S as Servidor MCP<br/>gestor de tickets
 
-    U->>A: ¿Qué historias del sprint están bloqueadas?
-    A->>M: Pregunta + lista de herramientas disponibles
-    M-->>A: Quiero usar buscar_issues(sprint actual, bloqueadas)
-    A->>S: Ejecuta la herramienta con los permisos del usuario
-    S-->>A: 3 historias con sus comentarios
-    A->>M: Resultado de la herramienta
-    M-->>A: Resumen con causas y responsables
-    A-->>U: Respuesta, con enlaces a cada historia
+    U->>A: ¿Qué historias del sprint<br/>están bloqueadas?
+    A->>M: Pregunta + herramientas<br/>disponibles
+    M-->>A: Pide usar buscar_issues<br/>(sprint actual, bloqueadas)
+    A->>S: Ejecuta con los permisos<br/>del usuario
+    S-->>A: 3 historias y<br/>sus comentarios
+    A->>M: Resultado de<br/>la herramienta
+    M-->>A: Resumen con causas<br/>y responsables
+    A-->>U: Respuesta con enlaces<br/>a cada historia
 ```
 
 El LLM nunca ejecuta nada directamente: **pide** usar una herramienta y la aplicación decide si lo permite y con qué permisos.
